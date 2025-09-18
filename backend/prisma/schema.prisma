@@ -26,8 +26,8 @@ model User {
 }
 
 model Category {
-  id        String   @id @default(cuid())
-  name      String
+  id        String    @id @default(cuid())
+  name      String    @unique
   expenses  Expense[]
 
   @@map("categories")
