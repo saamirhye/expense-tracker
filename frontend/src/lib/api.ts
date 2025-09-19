@@ -12,15 +12,37 @@ export interface AuthResponse {
   token: string;
 }
 
+export interface Category {
+  id: string;
+  name: string;
+}
+
+export interface Expense {
+  id: string;
+  amount: string;
+  description: string;
+  date: string;
+  createdAt: string;
+  category: Category;
+}
+
 class ApiClient {
+  private getAuthHeader() {
+    const token = localStorage.getItem("token");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
   private async request(endpoint: string, options: RequestInit = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
 
+    const headers = {
+      "Content-Type": "application/json",
+      ...this.getAuthHeader(),
+      ...options.headers,
+    };
+
     const response = await fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
+      headers: headers as Record<string, string>,
       ...options,
     });
 
@@ -45,6 +67,25 @@ class ApiClient {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
+  }
+
+  async getExpenses(): Promise<Expense[]> {
+    return this.request("/expenses");
+  }
+
+  async createExpense(
+    amount: number,
+    description: string,
+    categoryId: string
+  ): Promise<Expense> {
+    return this.request("/expenses", {
+      method: "POST",
+      body: JSON.stringify({ amount, description, categoryId }),
+    });
+  }
+
+  async getCategories(): Promise<Category[]> {
+    return this.request("/categories");
   }
 }
 

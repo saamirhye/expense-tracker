@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { apiClient } from "../../lib/api";
+import { apiClient } from "@/lib/api";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ export default function LoginPage() {
       localStorage.setItem("user", JSON.stringify(response.user));
 
       console.log("Login successful!", response);
-      alert("Login successful!");
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message || "Login failed");
     }

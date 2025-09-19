@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { PrismaClient } from "@prisma/client";
 import authRoutes from "./routes/auth";
 import expensesRoutes from "./routes/expenses";
+import categoriesRoutes from "./routes/categories";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -19,6 +20,7 @@ app.use(express.json());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expensesRoutes);
+app.use("/api/categories", categoriesRoutes);
 
 // health check
 app.get("/health", (req, res) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { apiClient } from "../../lib/api";
+import { apiClient } from "@/lib/api";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
 
@@ -29,7 +29,7 @@ export default function RegisterPage() {
       localStorage.setItem("user", JSON.stringify(response.user));
 
       console.log("Registration successful!", response);
-      alert("Registration successful!");
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message || "Registration failed");
     }
